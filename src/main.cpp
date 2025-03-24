@@ -18,23 +18,24 @@ int main(int argc, char** argv) {
 
     options.add_options()
       ("h, help", "Help page")
-      ("I, image-to-image", "Pixelsorts an image")
+      ("I, image-to-image", "Pixelsorts an image [DEFAULT]")
       ("V, video-to-video", "Pixelsorts every frame of a video")
-      ("i, input", "Input file", cxxopts::value<std::string>())
       ("o, output", "Output file", cxxopts::value<std::string>())
-      ("m, disable-mask", "Disables masking")
+      ("i, input", "Input file", cxxopts::value<std::string>())
+      ("m, disable-mask", "Disables masking [DEFAULT]")
       ("M, enable-mask", "Enables masking")
       ("S, sort-by-saturation", "Sorts pixels by saturation")
-      ("H, sort-by-hue", "Sorts pixels by hue")
+      ("H, sort-by-hue", "Sorts pixels by hue [DEFAULT]")
       ("B, sort-by-brightness", "Sorts pixels by brightness")
-      ("R, horizontal", "Sorts pixels by rows")
+      ("R, horizontal", "Sorts pixels by rows [DEFAULT]")
       ("C, vertical", "Sorts pixels by columns")
       ;
     
-    options.parse_positional({"input", "ouput"});
+    options.parse_positional({"input", "output"});
   
     float (*hbs)(char, char, char) = get_hue;
     void (*rotate_image)(char*, int&, int&, int&) = nullptr;
+    void (*pixelsort)(std::string&, std::string&, void (*)(char*, int&, int&, int&), float (*)(char, char, char)) = pixelsort_image; 
     std::string input;
     std::string output;
     

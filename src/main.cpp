@@ -1,19 +1,16 @@
 #include <iostream>
-#include "pixelsort.hpp"
-#include "hbs.hpp"
 
 #include <cxxopts.hpp>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb/stb_image.h"
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb/stb_image_write.h"
 
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libavdevice/avdevice.h>
 }
+
+#include "pixelsort.hpp"
+#include "hbs.hpp"
+#include "rotate_image.hpp"
 
 int main(int argc, char** argv) {
 
@@ -30,16 +27,17 @@ int main(int argc, char** argv) {
       ("S, sort-by-saturation", "Sorts pixels by saturation")
       ("H, sort-by-hue", "Sorts pixels by hue")
       ("B, sort-by-brightness", "Sorts pixels by brightness")
-      ("X, horizontal", "Sorts pixels by rows")
-      ("Y, vertical", "Sorts pixels by columns")
+      ("R, horizontal", "Sorts pixels by rows")
+      ("C, vertical", "Sorts pixels by columns")
       ;
     
     options.parse_positional({"input", "ouput"});
   
-    int (*hbs)(char, char, char) = get_hue;
-//     void (*rotation)(char*);
-//     void* (*read_file);
-
+    float (*hbs)(char, char, char) = get_hue;
+    void (*rotate_image)(char*, int&, int&, int&) = nullptr;
+    std::string input;
+    std::string output;
+    
     try {
       auto result = options.parse(argc, argv);
 
@@ -55,6 +53,18 @@ int main(int argc, char** argv) {
       if(result.count("sort-by-brightness")) {
 	hbs = &get_brightness;
       }
+      
+      if(result.count("input")) {
+	input = result["input"].as<std::string>();
+      }
+
+      if(result.count("output")) {
+	output = result["output"].as<std::string>();
+      }
+
+      if(result.count("vertical")) {
+ 	rotate_image = &horizontal_to_vertical;
+      }
 
     }
     catch(const std::exception& e) {
@@ -62,18 +72,7 @@ int main(int argc, char** argv) {
       return 1;
     }
 
-
-
-     int desired_channels = 3;
-     int width = 0; int height = 0; int channels = 0;
-
-     char* image = (char*) stbi_load("images/fantasy.png", &width, &height, &channels, desired_channels);
-
-     for(int i = 0; i < height; i++) {
-      pixelsort((image + i * width * desired_channels), width, hbs);
-     }
-
-     stbi_write_png("images/output.png", width, height, 3, image, width * 3);    
+    pixelsort(input, output, rotate_image, hbs);
 
     return 0;
 }

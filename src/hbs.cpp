@@ -1,8 +1,8 @@
-#include "hbs.hpp"
 #include <algorithm>
 
+#include "hbs.hpp"
 
-int get_hue(char red, char green, char blue) {
+float get_hue(char red, char green, char blue) {
     float R = red / 255.0;    
     float G = green / 255.0;
     float B = blue / 255.0;
@@ -17,10 +17,10 @@ int get_hue(char red, char green, char blue) {
     hue *= 60.0;
     if (hue < 360) hue += 360.0;
 
-    return (int) hue; 
+    return hue; 
 }
 
-int get_saturation(char red, char green, char blue) {
+float get_saturation(char red, char green, char blue) {
     float R = red / 255.0;
     float G = green / 255.0;
     float B = blue / 255.0;
@@ -43,7 +43,7 @@ int get_saturation(char red, char green, char blue) {
     return saturation;
 }
 
-int get_brightness(char red, char green, char blue) {
+float get_brightness(char red, char green, char blue) {
   float R = red / 255.0;
   float G = green / 255.0;
   float B = blue / 255.0;
@@ -51,5 +51,8 @@ int get_brightness(char red, char green, char blue) {
   float min = std::min({R, G, B});
   float max = std::max({R, G, B});
 
-  return max - min;
+  float brightness = max - min;
+  brightness *= 255.0;
+
+  return brightness;
 }

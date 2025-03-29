@@ -10,6 +10,7 @@ extern "C" {
 #include "pixelsort.hpp"
 #include "hbs.hpp"
 #include "rotate_image.hpp"
+#include "mask.hpp"
 
 int main(int argc, char** argv) {
 
@@ -34,7 +35,8 @@ int main(int argc, char** argv) {
  
     float (*hbs)(char, char, char) = get_hue;
     void (*rotate_image)(char*, int&, int&, int&) = nullptr;
-    void (*pixelsort)(std::string&, std::string&, void (*)(char*, int&, int&, int&), float (*)(char, char, char)) = pixelsort_image; 
+    void (*mask_ptr)(char*, std::vector<pixel_stream>&, int&, int, int, int) = nullptr;
+    void (*pixelsort)(std::string&, std::string&, void (*)(char*, std::vector<pixel_stream>&, int&, int, int, int), void (*)(char*, int&, int&, int&), float (*)(char, char, char)) = pixelsort_image; 
     std::string input;
     std::string output;
     
@@ -66,13 +68,17 @@ int main(int argc, char** argv) {
  	rotate_image = &horizontal_to_vertical;
       }
 
+      if(result.count("enable-mask")) {
+	mask_ptr = mask;
+      }
+
     }
     catch(const std::exception& e) {
       std::cerr << "Error processing user's input: " << e.what() << std::endl;
       return 1;
     }
 
-    pixelsort(input, output, rotate_image, hbs);
+    pixelsort(input, output, mask_ptr, rotate_image, hbs);
 
     return 0;
 }

@@ -1,7 +1,7 @@
 #include "quicksort.hpp"
 #include "util.hpp"
 
-void partition(char* array, int low, int high, float (*hbs)(char, char, char)) {
+void partition(char* array, int low, int high, int desired_channels, float (*hbs)(char, char, char)) {
     int i = low;
     int j = high;
     int pivot_index = high;
@@ -9,24 +9,24 @@ void partition(char* array, int low, int high, float (*hbs)(char, char, char)) {
 
     while(i <= j) {
 	while(hbs(array[i], array[i + 1], array[i + 2]) < pivot) 
-	    i += 3;
+	    i += desired_channels;
 	while(hbs(array[j], array[j + 1], array[j + 2]) > pivot) 
-	    j -= 3;
+	    j -= desired_channels;
 	if(i <= j) {
 	    swap_pixel(array[i], array[j]);
-	    i += 3;
-	    j -= 3;
+	    i += desired_channels;
+	    j -= desired_channels;
 	}
     }
 
     if(j > low)
-	partition(array, low, j, hbs);
+	partition(array, low, j, desired_channels, hbs);
     if(i < high) {
-	partition(array, i, high, hbs);
+	partition(array, i, high, desired_channels, hbs);
     }
 }
 
-void quicksort(char* array, int length, float (*hbs)(char, char, char)) {
-    partition(array, 0, length - 3, hbs);
+void quicksort(char* array, int length, int desired_channels, float (*hbs)(char, char, char)) {
+    partition(array, 0, length - desired_channels, desired_channels, hbs);
 }
 

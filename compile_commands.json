@@ -11,6 +11,11 @@
 },
 {
   "directory": "/home/benjamin/Programming/cppDev/PixelSorting/build",
+  "command": "/usr/bin/c++  -I/home/benjamin/Programming/cppDev/PixelSorting/include  -Wall -Wextra -ggdb -O3 -o CMakeFiles/pixelsort.dir/src/mask.cpp.o -c /home/benjamin/Programming/cppDev/PixelSorting/src/mask.cpp",
+  "file": "/home/benjamin/Programming/cppDev/PixelSorting/src/mask.cpp"
+},
+{
+  "directory": "/home/benjamin/Programming/cppDev/PixelSorting/build",
   "command": "/usr/bin/c++  -I/home/benjamin/Programming/cppDev/PixelSorting/include  -Wall -Wextra -ggdb -O3 -o CMakeFiles/pixelsort.dir/src/pixelsort.cpp.o -c /home/benjamin/Programming/cppDev/PixelSorting/src/pixelsort.cpp",
   "file": "/home/benjamin/Programming/cppDev/PixelSorting/src/pixelsort.cpp"
 },

@@ -1,6 +1,6 @@
 CXX		:= g++
 CXX_FLAGS 	:= -Wall -Wextra -std=c++17 -ggdb
-OPTIMIZATION	:= -O3
+OPTIMIZATION	:= -O1
 
 BIN		:= bin
 SRC		:= src

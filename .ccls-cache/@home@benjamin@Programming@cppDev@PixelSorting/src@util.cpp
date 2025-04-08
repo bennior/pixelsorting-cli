@@ -28,5 +28,3 @@ bool assert_ptr(void (*mask)(char*, std::vector<pixel_stream>&, int&, int, int, 
   }
   return 0;
 }
-
-

@@ -32,19 +32,18 @@ void mask(char* image, std::vector<pixel_stream>& px_str, int& size, int rows, i
 	 }
 	 length++;
 
-       }
+      }
 
       if(temp != start || (i % rows) == 0) {
- 	if(length > 10) {
+        if(length > 10) {
 	  px_str.emplace_back(pixel_stream{start - prev_start, length});
 	  prev_start = start;
- 	}
+        }
 	length = 0;
-	start = 0;
+        start = 0;
 	temp = 0;
       }
   }
-
   size = px_str.size();
 }
 

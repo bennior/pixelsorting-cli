@@ -19,7 +19,6 @@ std::string get_image_format(std::string filename) {
   unsigned char pgm[3] = {0x50, 0x35, 0x0A};
   unsigned char ppm[3] = {0x50, 0x36, 0x0A};
   unsigned char jpg[4] = {0xFF, 0xD8, 0xFF, 0xE0};
-  unsigned char hdr[4] = {0x6E, 0x69, 0x31, 0x00};
   unsigned char bmp[2] = {0x42, 0x4D};
 
   //png
@@ -42,10 +41,6 @@ std::string get_image_format(std::string filename) {
   if(memcmp(bmp, buffer, 2) == 0)
     return "bmp";
 
-  //hdr
-  if(memcmp(hdr, buffer, 4) == 0)
-    return "hdr";
-  
-  return NULL;
+  return ""; 
 }
 

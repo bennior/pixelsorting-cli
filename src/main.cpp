@@ -1,12 +1,6 @@
 #include <iostream>
 #include <cxxopts.hpp>
 
-extern "C" {
-#include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
-#include <libavdevice/avdevice.h>
-}
-
 #include "pixelsort.hpp"
 #include "hbs.hpp"
 #include "rotate_image.hpp"
@@ -69,7 +63,11 @@ int main(int argc, char** argv) {
       }
 
       if(result.count("enable-mask")) {
-	mask_ptr = mask;
+	mask_ptr = &mask;
+      }
+
+      if(result.count("video-to-video")) {
+	pixelsort = &pixelsort_video; 
       }
 
     }

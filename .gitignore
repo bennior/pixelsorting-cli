@@ -2,5 +2,3 @@ build
 compile_commands.json
 .ccls-cache
 images
-sample_images
-output_images

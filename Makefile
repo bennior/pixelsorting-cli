@@ -7,7 +7,7 @@ SRC		:= src
 INCLUDE		:= include
 LIB		:= lib
 
-LIBRARIES	:= -lavcodec -lavformat -lavdevice -lavutil -lavfilter -lswresample -lswscale 
+LIBRARIES	:= -lavcodec -lavformat -lavdevice -lavutil -lavfilter -lswresample -lswscale
 EXECUTABLE	:= pixelsort 
 
 

@@ -14,7 +14,7 @@
 #include "quicksort.h"
 #include "mask.h" 
 #include "image_format.h"
-#include "pixel_stream.h"
+#include "pixel_stream_context.h"
 
 /*
 AVPixelFormat correct_for_deprecated_pixel_format(AVPixelFormat pix_fmt) {
@@ -30,7 +30,7 @@ AVPixelFormat correct_for_deprecated_pixel_format(AVPixelFormat pix_fmt) {
 }
 */
 
-void pixelsort_image(const char* input, const char* output, void (*mask)(char*, dynamic_array*, int*, int, int, int), void (*rotate_image)(char*, int, int, int), float (*hbs)(char, char, char)) {
+void pixelsort_image(const char* input, const char* output, void (*mask)(char*, pixel_stream_context*, int*, int, int, int), void (*rotate_image)(char*, int, int, int), float (*hbs)(char, char, char)) {
 
    int desired_comp = 3;
    int width = 0; int height = 0; int channels = 0;
@@ -56,7 +56,7 @@ void pixelsort_image(const char* input, const char* output, void (*mask)(char*, 
    int columns = height;
    int rows = width;
  
-   dynamic_array px_streams = {NULL, 0, 0};
+   pixel_stream_context px_str_ctx = {NULL, 0, 0};
 
    if(rotate_image) {
      rotate_image(image, width, height, desired_comp);
@@ -67,12 +67,12 @@ void pixelsort_image(const char* input, const char* output, void (*mask)(char*, 
    if(mask) {
      int size = 0;
 
-     mask(image, &px_streams, &size, rows, columns, desired_comp);
+     mask(image, &px_str_ctx, &size, rows, columns, desired_comp);
 
-     char* p = image + px_streams.array[0].offset * desired_comp;
+     char* p = image + px_str_ctx.array[0].offset * desired_comp;
 
-     for(int i = 0; i < size; i++, p += px_streams.array[i].offset * desired_comp) {
-       quicksort(p, px_streams.array[i].length * desired_comp, desired_comp, hbs);
+     for(int i = 0; i < size; i++, p += px_str_ctx.array[i].offset * desired_comp) {
+       quicksort(p, px_str_ctx.array[i].length * desired_comp, desired_comp, hbs);
      }
 
    } else {
@@ -83,7 +83,7 @@ void pixelsort_image(const char* input, const char* output, void (*mask)(char*, 
 
    }
 
-   free_arr(&px_streams);
+   free_arr(&px_str_ctx);
 
    if(rotate_image) {
      rotate_image(image, height, width, desired_comp);
@@ -101,7 +101,7 @@ void pixelsort_image(const char* input, const char* output, void (*mask)(char*, 
     stbi_write_bmp(output, width, height, desired_comp, image);
 }
 
-void pixelsort_video(const char* input, const char* output, void (*mask)(char*, dynamic_array*, int*, int, int, int), void (*rotate_image)(char*, int, int, int), float (*hbs)(char, char, char)) {
+void pixelsort_video(const char* input, const char* output, void (*mask)(char*, pixel_stream_context*, int*, int, int, int), void (*rotate_image)(char*, int, int, int), float (*hbs)(char, char, char)) {
 /*
 
   AVFormatContext *ifmt_ctx = NULL, *ofmt_ctx = NULL;

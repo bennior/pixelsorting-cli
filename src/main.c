@@ -3,9 +3,11 @@
 #include "rotate_image.h"
 #include "mask.h"
 #include "cargs.h"
-#include "pixel_stream.h"
+#include "pixel_stream_context.h"
 
 static struct cag_option options[] = {
+
+
       {.identifier = 'I',
 	.access_letters = "I",
 	.access_name = "image",
@@ -73,8 +75,8 @@ int main(int argc, char** argv) {
 
     float (*hbs)(char, char, char) = &get_brightness;
     void (*rotate_image)(char*, int, int, int) = NULL;
-    void (*mask)(char*, dynamic_array*, int*, int, int, int) = NULL;
-    void (*pixelsort)(const char*, const char*, void (*)(char*, dynamic_array*, int*, int, int, int), void (*)(char*, int, int, int), float (*)(char, char, char)) = &pixelsort_image; 
+    void (*mask)(char*, pixel_stream_context*, int*, int, int, int) = NULL;
+    void (*pixelsort)(const char*, const char*, void (*)(char*, pixel_stream_context*, int*, int, int, int), void (*)(char*, int, int, int), float (*)(char, char, char)) = &pixelsort_image; 
     const char* input;
     const char* output;
 

@@ -1,8 +1,8 @@
 #include "mask.h"
 #include "hbs.h"
-#include "pixel_stream.h"
+#include "pixel_stream_context.h"
 
-void create_mask(char* image, dynamic_array* px_streams, int* size, int rows, int columns, int desired_channels) {
+void create_mask(char* image, pixel_stream_context* px_str_ctx, int* size, int rows, int columns, int desired_channels) {
  
   float lower_threshold = 0.0;
   float upper_threshold = 0.2;
@@ -26,13 +26,12 @@ void create_mask(char* image, dynamic_array* px_streams, int* size, int rows, in
 	   temp = start;
 	 }
 	 length++;
-
-      }
+}
 
       if(temp != start || (i % rows) == 0) {
         if(length > 10) {
 // 	  px_str.emplace_back(pixel_stream{start - prev_start, length});
-	  insert_element(px_streams, (pixel_stream){start - prev_start, length});
+	  insert_element(px_str_ctx, (pixel_stream){start - prev_start, length});
 	  prev_start = start;
         }
 	length = 0;
@@ -40,6 +39,6 @@ void create_mask(char* image, dynamic_array* px_streams, int* size, int rows, in
 	temp = 0;
       }
   }
-  *size = px_streams->used;
+  *size = px_str_ctx->used;
 }
 

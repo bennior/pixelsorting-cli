@@ -6,15 +6,27 @@
 
 const char* get_image_format(const char* filename) {
   FILE* file = fopen(filename, "rb"); 
+  int ret = 0;
 
   if(!file) {
     printf("Error analysing image format\n");
     exit(1);
   }
 
-  unsigned char buffer[8];
-  fread(buffer, 1, 8, file);
-  fclose(file);
+  int buffer_size = 8;
+  unsigned char buffer[buffer_size];
+
+  ret = fread(buffer, 1, buffer_size, file);
+  if(ret != buffer_size) {
+    printf("Failed to read image file\n");
+    exit(1);
+  }
+
+  ret = fclose(file);
+  if(ret != 0) {
+    printf("Failed to close image file\n");
+    exit(1);
+  }
 
   unsigned char png[8] = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A}; //signature of png format to int 
   unsigned char pgm[3] = {0x50, 0x35, 0x0A};

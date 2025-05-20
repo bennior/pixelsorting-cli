@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
       switch(cag_option_get_identifier(&context)) {
 
       case 'V':
-	pixelsort = &pixelsort_video;
+	pixelsort = &pixelsort_video2;
 	break;
       case 'i':
 	input = cag_option_get_value(&context); 

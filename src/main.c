@@ -1,4 +1,5 @@
-#include "pixelsort.h"
+#include "pixelsort_image.h"
+#include "pixelsort_video.h"
 #include "hbs.h"
 #include "rotate_image.h"
 #include "mask.h"
@@ -87,7 +88,7 @@ int main(int argc, char** argv) {
       switch(cag_option_get_identifier(&context)) {
 
       case 'V':
-	pixelsort = &pixelsort_video2;
+	pixelsort = &pixelsort_video;
 	break;
       case 'i':
 	input = cag_option_get_value(&context); 

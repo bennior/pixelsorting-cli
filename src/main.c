@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "pixelsort_image.h"
 #include "pixelsort_video.h"
 #include "hbs.h"
@@ -78,8 +80,8 @@ int main(int argc, char** argv) {
     void (*rotate_image)(char*, int, int, int) = NULL;
     void (*mask)(char*, pixel_stream_context*, int*, int, int, int) = NULL;
     void (*pixelsort)(const char*, const char*, void (*)(char*, pixel_stream_context*, int*, int, int, int), void (*)(char*, int, int, int), float (*)(char, char, char)) = &pixelsort_image; 
-    const char* input;
-    const char* output;
+    const char* input = NULL;
+    const char* output = NULL;
 
     cag_option_context context;
     cag_option_init(&context, options, CAG_ARRAY_SIZE(options), argc, argv);
@@ -92,9 +94,17 @@ int main(int argc, char** argv) {
 	break;
       case 'i':
 	input = cag_option_get_value(&context); 
+	if(input == NULL) {
+	  printf("Cannot process user's input file\n");
+	  return -1;
+	}
 	break;
       case 'o':
 	output = cag_option_get_value(&context);
+	if(input == NULL) {
+	  printf("Cannot process user's output file\n");
+	  return -1;
+	}
 	break;
       case 'M':
 	mask = &create_mask;
@@ -112,7 +122,8 @@ int main(int argc, char** argv) {
 	printf("Usage: pixelsort [-i/--input] <filename> [-o/--output] <filename> [options...]\n\n");
 	cag_option_print(options, CAG_ARRAY_SIZE(options), stdout);
 	printf("\nIf no options provided pixelsort with automatically use [-I/--image], [-B/--brightness], [-R/--rows] and [-m/--disable-mask]\n"); 
-	return 0; case '?':
+	return 0;
+      case '?':
 	cag_option_print_error(&context, stdout);
 	break;
       }

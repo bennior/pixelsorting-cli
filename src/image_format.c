@@ -5,6 +5,12 @@
 #include "image_format.h"
 
 const char* get_image_format(const char* filename) {
+
+  if(strcmp(filename, "") == 0) {
+    printf("Error processing user's input filename\n");
+    exit(1);
+  }
+
   FILE* file = fopen(filename, "rb"); 
   int ret = 0;
 

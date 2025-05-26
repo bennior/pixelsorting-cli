@@ -9,6 +9,7 @@
 #include "quicksort.h"
 #include "image_format.h"
 #include "pixel_stream_context.h"
+#include "loading_bar.h"
 
 typedef struct sorting_context {
 int desired_comp;
@@ -74,6 +75,8 @@ static int *stream_mapping = NULL;
 static stream_context *stream_ctx = NULL;
 static sorting_context *sorting_ctx = NULL;
 
+static int duration = 0;
+static int frame_rate = 0;
 
 int open_input_file(const char* input) {
 
@@ -104,6 +107,7 @@ int open_input_file(const char* input) {
     return -1;
   }
 
+  duration = ifmt_ctx->duration / AV_TIME_BASE;
   unsigned int number_of_stream = ifmt_ctx->nb_streams;
 
   //allocate stream_context
@@ -131,8 +135,10 @@ int open_input_file(const char* input) {
       const AVCodec *decoder = NULL;
 
       number_of_video_streams++;
-      
+
       video_stream_index = i;
+      
+      frame_rate = av_q2d(stream->r_frame_rate);
       
       //find decoder
       decoder = avcodec_find_decoder(codecpar->codec_id);
@@ -183,7 +189,7 @@ int open_input_file(const char* input) {
     return -1;
   }
 
-  printf("--------------\nNumber of video streams: %d\n--------------\n", number_of_video_streams);
+//   printf("--------------\nNumber of video streams: %d\n--------------\n", number_of_video_streams);
   
   return 0;
 }
@@ -427,11 +433,14 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
   int stream_index = 0;
   int i = 0;
   char error[AV_ERROR_MAX_STRING_SIZE];
+  int total_frames = 0;
 
   if(open_input_file(input) < 0) {
     av_log(NULL, AV_LOG_ERROR, "Could not open input file [Initialization error]\n");
     exit(1);
   }
+
+  total_frames = duration * frame_rate;
 
   if(open_output_file(output) < 0) {
     av_log(NULL, AV_LOG_ERROR, "Could not output input file [Initialization error]\n");
@@ -449,11 +458,13 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
     exit(1);
   }
 
-  
+  printf("\n");
+
   while(av_read_frame(ifmt_ctx, dec_pkt) >= 0) {
 
     stream_index = dec_pkt->stream_index;
     i = stream_index;
+
 
     if(stream_mapping[i] >= 0) {
 
@@ -526,6 +537,8 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
 	rotate_image(image, height, width, desired_comp);
       }
 
+      print_loading_bar(total_frames, stream_ctx[i].dec_ctx->frame_num);
+
       //000000000000000000000000000000000000000000000000000000000
 
       //convert to source pix fmt
@@ -570,6 +583,9 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
 
     av_packet_unref(dec_pkt);
   }
+
+  printf("\n");
+  printf("\033[?25h\n"); //show cursor again
 
   //finalizes the output file
   av_write_trailer(ofmt_ctx);

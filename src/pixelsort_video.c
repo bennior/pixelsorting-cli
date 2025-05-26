@@ -82,7 +82,7 @@ int open_input_file(const char* input) {
 
   if(strcmp(input, "") == 0) {
     av_log(NULL, AV_LOG_ERROR, "Error processing user's input filename\n");
-    exit(1);
+    return -1;
   }
 
   int number_of_video_streams = 0;
@@ -198,7 +198,7 @@ int open_output_file(const char* output) {
 
   if(strcmp(output, "") == 0) {
     av_log(NULL, AV_LOG_ERROR, "Error processing user's input filename\n");
-    exit(1);
+    return -1;
   }
 
   int video_stream_index = -1;

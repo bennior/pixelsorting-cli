@@ -121,7 +121,7 @@ int main(int argc, char** argv) {
       case 'h':
 	printf("Usage: pixelsort [-i/--input] <filename> [-o/--output] <filename> [options...]\n\n");
 	cag_option_print(options, CAG_ARRAY_SIZE(options), stdout);
-	printf("\nIf no options provided pixelsort with automatically use [-I/--image], [-B/--brightness], [-R/--rows] and [-m/--disable-mask]\n"); 
+	printf("\nIf no options provided pixelsort will automatically use [-I/--image], [-B/--brightness], [-R/--rows] and [-m/--disable-mask]\n"); 
 	return 0;
       case '?':
 	cag_option_print_error(&context, stdout);

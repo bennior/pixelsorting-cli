@@ -5,7 +5,7 @@ OPTIMIZATION	:= -O3
 BIN		:= bin
 SRC		:= src
 INCLUDE		:= include
-LIB		:= lib
+LIB		:= unix
 
 LIBRARIES	:= -lavcodec -lavformat -lavutil -lswscale -lm
 EXECUTABLE	:= pixelsort 

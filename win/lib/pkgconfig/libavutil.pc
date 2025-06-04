@@ -1,0 +1,14 @@
+prefix=../win2_ffmpeg/
+exec_prefix=${prefix}
+libdir=../win2_ffmpeg//lib
+includedir=../win2_ffmpeg//include
+
+Name: libavutil
+Description: FFmpeg utility library
+Version: 59.56.100
+Requires: 
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lavutil 
+Libs.private: -lm -luser32 -lbcrypt -latomic
+Cflags: -I${includedir}

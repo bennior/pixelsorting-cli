@@ -20,7 +20,7 @@ int columns;
 int rows;
 pixel_stream_context px_str_ctx;
 
-u_int8_t* rgb_buffer;
+unsigned char* rgb_buffer;
 } sorting_context;
 
 typedef struct stream_context {
@@ -400,7 +400,7 @@ int init_sorting_context() {
       pixel_stream_context px_str_ctx = {NULL, 0, 0};
 
       int rgb_size = stream_ctx[i].dec_ctx->height * stream_ctx[i].dec_ctx->width * 3;
-      u_int8_t* rgb_buffer = (u_int8_t*) av_malloc(rgb_size);
+      unsigned char* rgb_buffer = (unsigned char*) av_malloc(rgb_size);
 
       if(!rgb_buffer) {
         av_log(NULL, AV_LOG_ERROR, "Could not allocate rgb_buffer\n");
@@ -495,11 +495,11 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
 
       pixel_stream_context px_str_ctx = sorting_ctx[i].px_str_ctx;
 
-      u_int8_t* dst_data[4] = {sorting_ctx[i].rgb_buffer, NULL, NULL, NULL};
+      unsigned char* dst_data[4] = {sorting_ctx[i].rgb_buffer, NULL, NULL, NULL};
       int dst_linesize[4] = {stream_ctx[i].dec_ctx->width * 3, 0, 0, 0}; 
 
       //convert to rgb
-      sws_scale(stream_ctx[i].sws_fmt_to_rgb, (const u_int8_t* const*)stream_ctx[i].dec_frame->data, stream_ctx[i].dec_frame->linesize, 0, stream_ctx[i].dec_frame->height, dst_data, dst_linesize);
+      sws_scale(stream_ctx[i].sws_fmt_to_rgb, (const unsigned char* const*)stream_ctx[i].dec_frame->data, stream_ctx[i].dec_frame->linesize, 0, stream_ctx[i].dec_frame->height, dst_data, dst_linesize);
 
 
       //000000000000000000000000000000000000000000000000000000000
@@ -542,7 +542,7 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
       //000000000000000000000000000000000000000000000000000000000
 
       //convert to source pix fmt
-      sws_scale(stream_ctx[i].sws_rgb_to_fmt, (const u_int8_t* const*)dst_data, dst_linesize, 0, stream_ctx[i].dec_frame->height, stream_ctx[i].enc_frame->data, stream_ctx[i].enc_frame->linesize);
+      sws_scale(stream_ctx[i].sws_rgb_to_fmt, (const unsigned char* const*)dst_data, dst_linesize, 0, stream_ctx[i].dec_frame->height, stream_ctx[i].enc_frame->data, stream_ctx[i].enc_frame->linesize);
 
       
       stream_ctx[i].enc_frame->time_base = stream_ctx[i].dec_frame->time_base;

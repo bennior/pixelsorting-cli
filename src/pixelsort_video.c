@@ -459,6 +459,7 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
   }
 
   printf("\n");
+  printf("\x1b[?7l"); //disable line wrapping
 
   while(av_read_frame(ifmt_ctx, dec_pkt) >= 0) {
 
@@ -585,6 +586,7 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
   }
 
   printf("\n");
+  printf("\x1b[?7h"); // enable line wrapping
   printf("\033[?25h\n"); //show cursor again
 
   //finalizes the output file

@@ -1,6 +1,7 @@
 CXX		:= gcc
 CXX_FLAGS 	:= -Wall -Wextra -ggdb
-OPTIMIZATION	:= -O3
+OPT		:= -O3
+
 
 BIN		:= bin
 SRC		:= src
@@ -10,6 +11,9 @@ LIB		:= lib
 LIBRARIES	:= -lavcodec -lavformat -lavutil -lswscale -lm
 EXECUTABLE	:= pixelsort 
 
+ifeq ($(INSTALL_PREFIX),)
+	INSTALL_PREFIX	:= /usr/local
+endif
 
 all: $(BIN)/$(EXECUTABLE)
 
@@ -18,7 +22,13 @@ run: clean all
 	./$(BIN)/$(EXECUTABLE)
 
 $(BIN)/$(EXECUTABLE): $(SRC)/*.c
-	$(CXX) $(CXX_FLAGS) $(OPTIMIZATION) -I$(INCLUDE) -L$(LIB) $^ -o $@ $(LIBRARIES)
+	$(CXX) $(CXX_FLAGS) $(OPT) -I$(INCLUDE) -L$(LIB) $^ -o $@ $(LIBRARIES)
+	@printf "\nYou can run now 'make install'\n"
 
 clean:
 	-rm $(BIN)/*
+
+install: $(BIN)/$(EXECUTABLE)
+	install -Dt $(INSTALL_PREFIX)/bin/ $(BIN)/$(EXECUTABLE)
+	install -Dt $(INSTALL_PREFIX)/lib/ $(LIB)/*.so*
+	@#install -vDt $(INSTALL_PREFIX)/include $(INCLUDE)/libavcodec

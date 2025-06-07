@@ -305,14 +305,14 @@ int open_output_file(const char* output) {
   if(!(ofmt_ctx->oformat->flags & AVFMT_NOFILE)) {
     if(avio_open(&ofmt_ctx->pb, output, AVIO_FLAG_WRITE)) {
       av_log(NULL, AV_LOG_ERROR, "Could not open output file '%s'", output);
-      exit(1);
+      return -1;
     }
   }
 
   //write file header
   if(avformat_write_header(ofmt_ctx, NULL)) {
     av_log(NULL, AV_LOG_ERROR, "Error occurred when opening output file\n");
-    exit(1);
+    return -1;
   }
 
   return 0;
@@ -443,7 +443,7 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
   total_frames = duration * frame_rate;
 
   if(open_output_file(output) < 0) {
-    av_log(NULL, AV_LOG_ERROR, "Could not output input file [Initialization error]\n");
+    av_log(NULL, AV_LOG_ERROR, "Could not open output file [Initialization error]\n");
     exit(1);
   }
 

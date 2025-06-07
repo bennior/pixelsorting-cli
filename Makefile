@@ -1,6 +1,6 @@
 CXX		:= gcc
 CXX_FLAGS 	:= -Wall -Wextra -ggdb
-OPT		:= -O3
+OPT		:= -O3 -ffast-math
 
 
 BIN		:= bin
@@ -8,7 +8,7 @@ SRC		:= src
 INCLUDE		:= include
 LIB		:= lib
 
-LIBRARIES	:= -lavcodec -lavformat -lavutil -lswscale -lm
+LIBRARIES	:= -lavformat -lavcodec -lswresample -lswscale -lavutil -lx264 -lm
 EXECUTABLE	:= pixelsort 
 
 ifeq ($(INSTALL_PREFIX),)

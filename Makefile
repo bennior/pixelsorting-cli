@@ -31,4 +31,3 @@ clean:
 install: $(BIN)/$(EXECUTABLE)
 	install -Dt $(INSTALL_PREFIX)/bin/ $(BIN)/$(EXECUTABLE)
 	install -Dt $(INSTALL_PREFIX)/lib/ $(LIB)/*.so*
-	@#install -vDt $(INSTALL_PREFIX)/include $(INCLUDE)/libavcodec

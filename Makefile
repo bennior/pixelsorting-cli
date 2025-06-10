@@ -8,7 +8,7 @@ SRC		:= src
 INCLUDE		:= include
 LIB		:= lib
 
-LIBRARIES	:= -lavformat -lavcodec -lswresample -lswscale -lavutil -lx264 -lm
+LIBRARIES	:= -lavformat -lavcodec -lswscale -lavutil -lm
 EXECUTABLE	:= pixelsort 
 
 ifeq ($(INSTALL_PREFIX),)
@@ -19,7 +19,7 @@ all: $(BIN)/$(EXECUTABLE)
 
 run: clean all
 	clear
-	./$(BIN)/$(EXECUTABLE)
+	./$(BIN)/$(EXECUTABLE) --help
 
 $(BIN)/$(EXECUTABLE): $(SRC)/*.c
 	$(CXX) $(CXX_FLAGS) $(OPT) -I$(INCLUDE) -L$(LIB) $^ -o $@ $(LIBRARIES)

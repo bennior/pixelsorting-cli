@@ -8,7 +8,7 @@ SRC		:= src
 INCLUDE		:= include
 LIB		:= lib
 
-LIBRARIES	:= -lavformat -lavcodec -lswscale -lavutil -lm
+LIBRARIES	:= -lavformat -lavcodec -lswscale -lavutil -lswresample -lx264 -lm
 EXECUTABLE	:= pixelsort 
 
 ifeq ($(INSTALL_PREFIX),)

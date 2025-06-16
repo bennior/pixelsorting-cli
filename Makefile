@@ -15,6 +15,8 @@ ifeq ($(INSTALL_PREFIX),)
 	INSTALL_PREFIX	:= /usr/local
 endif
 
+UNINSTALL	:= $(shell ls $(LIB))
+
 all: $(BIN)/$(EXECUTABLE)
 
 run: clean all
@@ -31,3 +33,7 @@ clean:
 install: $(BIN)/$(EXECUTABLE)
 	install -Dt $(INSTALL_PREFIX)/bin/ $(BIN)/$(EXECUTABLE)
 	install -Dt $(INSTALL_PREFIX)/lib/ $(LIB)/*.so*
+
+uninstall: 
+	@cd $(INSTALL_PREFIX)/lib; rm $(UNINSTALL)
+	rm $(INSTALL_PREFIX)/bin/$(EXECUTABLE)

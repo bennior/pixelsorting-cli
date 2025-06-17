@@ -35,5 +35,5 @@ install: $(BIN)/$(EXECUTABLE)
 	install -Dt $(INSTALL_PREFIX)/lib/ $(LIB)/*.so*
 
 uninstall: 
-	@cd $(INSTALL_PREFIX)/lib; rm $(UNINSTALL)
+	cd $(INSTALL_PREFIX)/lib; rm $(UNINSTALL)
 	rm $(INSTALL_PREFIX)/bin/$(EXECUTABLE)

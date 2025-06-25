@@ -2,31 +2,39 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project(pixelsort)
 
-# Set output directory for the executable
-set(BIN ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN})
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  set(TARGET_OS "LINUX_OS")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+  set(TARGET_OS "WINDOWS_OS")
+else()
+  message(FATAL_ERROR "Operating System: ${CMAKE_SYSTEM_NAME} is not supported")
+endif()
 
-# Source and include directories
-set(SRC ${CMAKE_SOURCE_DIR}/src)
-set(INCLUDE ${CMAKE_SOURCE_DIR}/include)
-set(LIB ${CMAKE_SOURCE_DIR}/lib)
+if(TARGET_OS STREQUAL "LINUX_OS")
+  set(INCLUDE ${CMAKE_SOURCE_DIR}/include)
+  file(GLOB LIB ${CMAKE_SOURCE_DIR}/lib/*.so*)
+  file(GLOB RUNTIME ${LIB})
+  set(BIN ${CMAKE_SOURCE_DIR}/bin)
 
-# Add this line, to enable compile command export
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+  set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Find all source files in src/
-file(GLOB SOURCES ${SRC}/*.c)
+elseif(TARGET_OS STREQUAL "WINDOWS_OS")
+  set(INCLUDE ${CMAKE_SOURCE_DIR}/win64/include)
+  file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/win64/lib)
+  file(GLOB RUNTIME ${CMAKE_SOURCE_DIR}/win64/bin/*.dll)
+  set(BIN ${CMAKE_SOURCE_DIR}/win64/bin)
+  
+endif()
 
-# Compiler flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -ggdb -O3")
-
-# Add include directories
 include_directories(${INCLUDE})
 
-# Create the executable
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN})
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -ggdb -O3 -ffast-math")
+file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.c)
 add_executable(pixelsort ${SOURCES})
 
-# Link FFmpeg libraries
-add_library(libraries SHARED IMPORTED)
-set_target_properties(libraries PROPERTIES IMPORTED_LOCATION ${LIB}/*.so)
-target_link_libraries(pixelsort libraries)
+find_library(LIBM m)
+target_link_libraries(pixelsort ${LIB} ${LIBM})
+
+install(TARGETS pixelsort DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+install(PROGRAMS ${RUNTIME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

@@ -4,7 +4,9 @@ project(pixelsort)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(TARGET_OS "LINUX_OS")
-elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(TARGET_OS "WINDOWS_OS")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "MSYS")
   set(TARGET_OS "WINDOWS_OS")
 else()
   message(FATAL_ERROR "Operating System: ${CMAKE_SYSTEM_NAME} is not supported")
@@ -27,8 +29,8 @@ elseif(TARGET_OS STREQUAL "WINDOWS_OS")
   file(GLOB RUNTIME ${CMAKE_SOURCE_DIR}/win/bin/*.dll)
   set(BIN ${CMAKE_SOURCE_DIR}/win/bin)
 
-  set(LIB_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/bin)
-  set(BIN_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX}/bin)
+  set(LIB_INSTALL_PREFIX "/c/Program Files (x86)/${CMAKE_PROJECT_NAME}")
+  set(BIN_INSTALL_PREFIX "/c/Program Files (x86)/${CMAKE_PROJECT_NAME}")
   
 endif()
 

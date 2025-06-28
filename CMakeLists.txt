@@ -31,7 +31,6 @@ elseif(TARGET_OS STREQUAL "WINDOWS_OS")
   set(LIB_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
   set(BIN_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
 
-  target_compile_definitions(pixelsort PUBLIC "WINDOWS_OS")
 
 endif()
 
@@ -42,6 +41,7 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -ggdb -O3 -ffast-math")
 file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.c)
 add_executable(pixelsort ${SOURCES})
 
+target_compile_definitions(pixelsort PUBLIC ${TARGET_OS})
 target_link_libraries(pixelsort ${LIB} ${LIBM})
 
 install(TARGETS pixelsort DESTINATION ${BIN_INSTALL_PREFIX})

@@ -4,12 +4,12 @@
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h> 
 
+#include "loading_bar.h"
 #include "hbs.h"
 #include "pixelsort_video.h"
 #include "quicksort.h"
 #include "image_format.h"
 #include "pixel_stream_context.h"
-#include "loading_bar.h"
 
 typedef struct sorting_context {
 int desired_comp;
@@ -459,7 +459,9 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
   }
 
   printf("\n");
+#ifndef WINDOWS_OS
   printf("\x1b[?7l"); //disable line wrapping
+#endif
 
   while(av_read_frame(ifmt_ctx, dec_pkt) >= 0) {
 
@@ -586,8 +588,10 @@ void pixelsort_video(const char* input, const char* output, void (*mask)(char*, 
   }
 
   printf("\n");
+#ifndef WINDOWS_OS
   printf("\x1b[?7h"); // enable line wrapping
   printf("\033[?25h\n"); //show cursor again
+#endif
 
   //finalizes the output file
   av_write_trailer(ofmt_ctx);

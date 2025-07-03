@@ -1,7 +1,7 @@
 ![beautiful ascii-art](assets/ascii-text-art.png)
 
 **pixelsorting-cli** is a CLI that grants easy-to-use **cross-platform** access to various functionalities related to the pixelsorting of **images** and **videos**.  
-The project offers **masking**, **directional** and **brightness**, **hue** and **saturation** based sorting as well as **multi-channel support** for videos.
+The project offers **masking**, **directional**, **brightness**, **hue** and **saturation** based sorting as well as **multi-channel support** for videos.
 
 # Examples
 

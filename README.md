@@ -1,7 +1,7 @@
 ![beautiful ascii-art](assets/ascii-text-art.png)
 
 **pixelsorting-cli** is a CLI that grants easy-to-use **cross-platform** access to various functionalities related to the pixelsorting of **images** and **videos**.  
-The project offers **masking**, **directional**, **brightness**, **hue** and **saturation** based sorting as well as **multi-channel support** for videos.
+The project offers **masking**, **directional** sorting, **brightness**, **hue** and **saturation** selection as well as **multi-channel support** for videos.
 
 # Examples
 
@@ -38,7 +38,7 @@ Build the executable with make:
     make
     sudo make install
 
-The executable will be installed to **/usr/local/bin** and the dependencies to **/usr/local/lib**. The install path can be changed by setting the variable **INSTALL_PREFIX**. To execute the program add **/usr/local/lib** or your location of desire to the **LD_LIBRARY_PATH**:
+The executable will be installed to **/usr/local/bin** and the dependencies to **/usr/local/lib**. The install path can be changed by setting the variable **INSTALL_PREFIX**. To execute the program add **/usr/local/lib** or your location to the **LD_LIBRARY_PATH**:
 
     export LD_LIBRARY_PATH=/usr/local/lib
 
@@ -50,7 +50,7 @@ The program can be uninstalled by typing:
 
 The project provides **64-Bit Windows** support only.
 
-On Windows the project is build using **cmake**, **git** and **mingw-w64**. Therefore download **cmake** and **git** and install the latest release of **mingw-w64** from [WinLibs](https://winlibs.com). Extract the downloaded **.zip** or **.7z** file and add **mingw64/bin** to your path. Alternative pre-builds of **mingw-w64** can be found on the official website [mingw-w64](https://mingw-w64.org). 
+On Windows the project is built using **cmake**, **git** and **mingw-w64**. Therefore download **cmake** and **git** and install the latest release of **mingw-w64** from [WinLibs](https://winlibs.com). Extract the downloaded **.zip** or **.7z** file and add **mingw64/bin** to your path. Alternative pre-builds of **mingw-w64** can be found on the official website [mingw-w64](https://mingw-w64.org). 
 
 Clone the repository:
 

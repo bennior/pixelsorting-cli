@@ -101,11 +101,11 @@ For further details on the usage type:
 
 # Dependencies
 
-**cargs** is C/C++ command line parser: [cargs](https://likle.github.io/cargs/)
+**cargs** is a C/C++ command line parser: [cargs](https://likle.github.io/cargs/)
 
 **stb image** is a single-file tool for reading and writing images: [stbi](https://github.com/nothings/stb)
 
-**FFMPEG** is a open-source library that provides functionality for multimedia processing: [FFMPEG](https://ffmpeg.org/)
+**FFMPEG** is an open-source library that provides functionality for multimedia processing: [FFMPEG](https://ffmpeg.org/)
 
 **x264** is a free and open-source encoder: [x264](https://github.com/mirror/x264)
 
